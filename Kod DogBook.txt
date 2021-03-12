@@ -1,0 +1,246 @@
+setData(){
+        localStorage.setItem('myData', JSON.stringify(value))
+    }
+
+    getData(){
+        let data = localStorage.getItem('myData')
+        data = JSON.parse(data)
+        console.log(data)
+    }
+<div>
+                    <button onClick={ () => this.setData() }>Set Data</button>
+                    <button onClick={ () => this.getData() }>Get Data</button>
+                </div>
+
+
+/*
+export default function Create() {
+  const [values, setValues] = useState([])
+  const valueNameRef = useRef()
+  const valueNickRef = useRef()
+  const valueBioRef = useRef()
+  const valueFriendsRef = useRef()
+  const valueAgeRef = useRef()
+
+  useEffect(() => {
+    const storedValues = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storedValues) setValues(storedValues)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(values))
+  }, [values])
+
+  function toggleValue(id) {
+    const newValues = [...values]
+    const value = newValues.find(value => value.id === id)
+    value.complete = !value.complete
+    setValues(newValues)
+  }
+
+  function handleAddValue(e) {
+    const name = valueNameRef.current.value
+    const nick = valueNickRef.current.value
+    const bio = valueBioRef.current.value
+    const friends = valueFriendsRef.current.value
+    const age = valueAgeRef.current.value
+
+    if (name === '') return
+    setValues(prevValues => {
+      return [...prevValues, { id: uuidv4(), name: name, nick: nick, age: age, bio: bio, friends: friends, complete: false}]
+    })
+    valueNameRef.current.value = null
+    valueNickRef.current.value = null
+    valueBioRef.current.value = null
+    valueFriendsRef.current.value = null
+    valueAgeRef.current.value = null
+  }
+  function view(){
+    if(localStorage.getItem(LOCAL_STORAGE_KEY) !=null){
+      document.getElementById("output").innerHTML = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    }
+  }
+  return (
+    <>
+      <DogList values={values} toggleValue={toggleValue} />
+      <div>Currently {values.filter(value => !value.complete).length} dog(s) in the kennel</div>
+      <div><h3>Create a profile for your dog:</h3></div>
+        <form onSubmit={handleAddValue}>
+          <label>Name: </label>
+          <input ref={valueNameRef} type="text" ></input><br/>
+          <label>Nick: </label>
+          <input ref={valueNickRef} type="text" ></input><br/>
+          <label>Age: </label>
+          <select ref={valueAgeRef} defaultValue="Select Age">
+              <option defaultValue>Select Age</option>
+              <option value="<1">{"<"}1</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">10{">"}</option>
+          </select><br />
+          <label>Bio: </label>
+          <input ref={valueBioRef} type="text" ></input><br/>
+
+          <label>Friends: </label><input ref={valueFriendsRef} type="text" ></input><br/>
+        </form>
+      <button onClick={handleAddValue}>Save dog</button>
+
+      <div>
+        <button onClick={view}>View</button>
+      </div>
+    </>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const Create = () => {
+  const [values, handleChange] = useState({
+    name: "",
+    nick: "",
+    bio: "",
+  })
+  useEffect(() => {
+      console.log("render");
+  }, [values]);
+
+ useEffect(() => {
+    localStorage.setItem("dogProfile", JSON.stringify(values));
+  });
+
+  return (
+    <div>
+      <>
+        <h3>Create</h3>
+        <input 
+        name="name" 
+        placeholder="Name"
+        value={values.name} 
+        onChange={handleChange}/>
+        <input
+        name="nick"
+        placeholder="Nick"
+        value={values.nick}
+        onChange={handleChange}/>
+        <input
+        name="bio"
+        placeholder="Bio"
+        value={values.Bio}
+        onChange={handleChange}/>
+      </>
+    </div>
+  );
+};
+
+
+
+
+export function SetAndGetItem() {
+    useEffect(() => {
+        localStorage.setItem('dogProfile', JSON.stringify(this.state));
+    },[this.nameHandler]);
+
+
+    return(
+        <>  
+            <p>Name: {this.state.name}</p>
+            <p>Nick: {this.state.nick}</p>
+            <p>Bio: {this.state.bio}</p>
+            <p>Age: {this.state.age}</p>
+        </>
+
+    )
+}
+
+class FormInCreate extends Component {  
+    constructor(props) {
+        super(props)
+
+        this.state ={
+            name: "",
+            nick: "",
+            age: "",
+            bio: "",
+        }
+        this.handleSubmit=this.handleSubmit.bind(this)
+    }
+
+
+    nameHandler = (event) => {
+        this.setState({ name: event.target.value })
+    }
+    nickHandler = (event) => {
+        this.setState({ nick: event.target.value })
+    }
+    ageHandler = (event) => {
+        this.setState({ age: event.target.value })
+    }
+    bioHandler = (event) => {
+        this.setState({ bio: event.target.value })
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault()
+        
+    }
+    
+
+
+    render() {
+        return(
+            <div className="create">
+                <h3>Create</h3>
+                <form onSubmit={this.handleSubmit}>
+                    <label>Name: </label>
+                    <input type="text" value={this.state.name} onChange={this.nameHandler} placeholder="Name..."/><br/>
+                    <label>Nick: </label>
+                    <input type="text" value={this.state.nick} onChange={this.nickHandler} placeholder="Nick..."/><br/>
+                    <label>Bio: </label>
+                    <input type="text" value={this.state.bio} onChange={this.bioHandler} placeholder="Bio..."/><br/>
+                    <label>Age: </label>
+                    <select onChange={this.ageHandler} defaultValue="Select Age">
+                        <option defaultValue>Select Age</option>
+                        <option value="0">{"<"}1</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">10{">"}</option>
+                    </select><br />
+                    <input type="submit" value="Submit" />
+                </form>
+                <p>Name: {this.state.name}</p>
+                <p>Nick: {this.state.nick}</p>
+                <p>Bio: {this.state.bio}</p>
+                <p>Age: {this.state.age}</p>
+            </div>
+        )
+    }
+}
+*/
